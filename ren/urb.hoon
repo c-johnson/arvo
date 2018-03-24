@@ -20,6 +20,7 @@
               [0v0 bod]
               /#  /;  nutalk  /|(/!htm/ /htm/)  ::a lot of stuff in here isn't .hoon files
               /
-          /urb-tree/
+          ::/urb-tree/
+          /;  urb-split  /#  /;  nutalk  /!htm/
       ==
 -.-
