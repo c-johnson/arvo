@@ -1,242 +1,280 @@
 /+  new-hoon, tester
 =,  ls:new-hoon
-|_  _tester:tester
+|_  tester-type:tester
 ++  test-head
-  (expect-eq !>([1 (head [1 ~])]))
+  (expect-eq (head [1 ~]) 1 "head")
 ::
 ++  test-last
-  (expect-eq !>([2 (last:ls [1 2 ~])]))
+  (expect-eq (last:ls [1 2 ~]) 2 "last")
 ::
 ++  test-tail
-  (expect-eq !>([[2 3 ~] (tail [1 2 3 ~])]))
+  (expect-eq (tail [1 2 3 ~]) [2 3 ~] "tail")
 ::
 ++  test-init
-  (expect-eq !>([[1 2 ~] (init [1 2 3 ~])]))
+  (expect-eq (init [1 2 3 ~]) [1 2 ~] "init")
 ::
 ++  test-size
-  (expect-eq !>([3 (size ['a' 'b' 'c' ~])]))
+  (expect-eq (size ['a' 'b' 'c' ~]) 3 "size")
 ::
 ++  test-map
-  (expect-eq !>([[2 3 ~] (map:ls [1 2 ~] |=(a/@ (add 1 a)))]))
+  (expect-eq (map:ls [1 2 ~] |=(a/@ (add 1 a))) [2 3 ~] "map")
 ::
 ++  test-reverse
-  (expect-eq !>([[3 2 1 ~] (reverse [1 2 3 ~])]))
+  (expect-eq (reverse [1 2 3 ~]) [3 2 1 ~] "reverse")
 ::
 ++  test-intersperse
-  (expect-eq !>([[5 1 5 1 5 ~] (intersperse 1 [5 5 5 ~])]))
+  (expect-eq (intersperse 1 [5 5 5 ~]) [5 1 5 1 5 ~] "intersperse")
 ::
 ++  test-intercalate
-  %-  expect-eq  !>
-  :-  ["one,two,three"]
+  %^  expect-eq
   (intercalate "," ["one" "two" "three" ~])
+  ["one,two,three"]
+  "intercalate"
 ::
 ++  test-transpose
-  %-  expect-eq  !>
-  :-  ~[~[1 4] ~[2 5] ~[3 6]]
+  %^  expect-eq
   (transpose ~[~[1 2 3] ~[4 5 6]])
+  ~[~[1 4] ~[2 5] ~[3 6]]
+  "transpose"
 ::
 ++  test-foldl
-  (expect-eq !>([9 (foldl [1 2 3 ~] 3 |=({a/@ b/@} (add a b)))]))
+  (expect-eq (foldl [1 2 3 ~] 3 |=({a/@ b/@} (add a b))) 9 "foldl")
 ::
 ++  test-foldr
-  (expect-eq !>([7 (foldr [1 2 3 ~] 1 |=({a/@ b/@} (add a b)))]))
+  (expect-eq (foldr [1 2 3 ~] 1 |=({a/@ b/@} (add a b))) 7 "foldr")
 ::
 ++  test-concat
-  (expect-eq !>([~[1 2 3 4] (concat ~[~[1 2] ~[3 4]])]))
+  (expect-eq (concat ~[~[1 2] ~[3 4]]) ~[1 2 3 4] "concat")
 ::
 ++  test-weld
-  (expect-eq !>([~[1 2 3 "one" "two"] (weld:ls ~[1 2 3] ~["one" "two"])]))
+  (expect-eq (weld:ls ~[1 2 3] ~["one" "two"]) ~[1 2 3 "one" "two"] "weld")
 ::
 ++  test-any-true
-  (expect-eq !>([%.y (any [1 2 3 ~] |=(a/@ =(a 2)))]))
+  (expect-eq (any [1 2 3 ~] |=(a/@ =(a 2))) %.y "any true")
 ::
 ++  test-any-false
-  (expect-eq !>([%.n (any [1 2 3 ~] |=(a/@ =(a 8)))]))
+  (expect-eq (any [1 2 3 ~] |=(a/@ =(a 8))) %.n "any false")
 ::
 ++  test-all-true
-  (expect-eq !>([%.y (all [1 1 1 ~] |=(a/@ =(a 1)))]))
+  (expect-eq (all [1 1 1 ~] |=(a/@ =(a 1))) %.y "all true")
 ::
 ++  test-all-false
-  (expect-eq !>([%.n (all [1 3 1 ~] |=(a/@ =(a 1)))]))
+  (expect-eq (all [1 3 1 ~] |=(a/@ =(a 1))) %.n "all false")
 ::
 ++  test-scanl
-  %-  expect-eq  !>
-  :-  ~[0 1 3 6]
+  %^  expect-eq
   (scanl ~[1 2 3] 0 |=({a/@ b/@} (add a b)))
+  ~[0 1 3 6]
+  "scanl"
 ::
 ++  test-scanl1
-  %-  expect-eq  !>
-  :-  ~[1 3 6]
+  %^  expect-eq
   (scanl1 ~[1 2 3] |=({a/@ b/@} (add a b)))
+  ~[1 3 6]
+  "scanl1"
 ::
 ++  test-scanr
-  %-  expect-eq  !>
-  :-  ~[6 5 3 0]
+  %^  expect-eq
   (scanr ~[1 2 3] 0 |=({a/@ b/@} (add a b)))
+  ~[6 5 3 0]
+  "scanr"
 ::
 ++  test-scanr1
-  %-  expect-eq  !>
-  :-  ~[6 5 3]
+  %^  expect-eq
   (scanr1 ~[1 2 3] |=({a/@ b/@} (add a b)))
+  ~[6 5 3]
+  "scanr1"
 ::
 ++  test-map-foldl
-  %-  expect-eq  !>
-  :-  [7 ~[2 3 5]]
+  %^  expect-eq
   (map-foldl ~[1 2 3] 1 |=({a/@ b/@} [(add a b) (add 1 a)]))
+  [7 ~[2 3 5]]
+  "map-foldl"
 ::
 ++  test-map-foldr
-  %-  expect-eq  !>
-  :-  [7 ~[7 5 2]]
+  %^  expect-eq
   (map-foldr ~[1 2 3] 1 |=({a/@ b/@} [(add a b) (add 1 a)]))
+  [7 ~[7 5 2]]
+  "map-foldr"
 ::
 ++  test-unfoldr
-  %-  expect-eq  !>
-  :-  [5 4 3 2 1 ~]
+  %^  expect-eq
   (unfoldr 5 |=(a/@ ?:(=(a 0) ~ `[a (dec a)])))
+  [5 4 3 2 1 ~]
+  "unfoldr"
 ::
 ++  test-take
-  %-  expect-eq  !>
-  :-  [1 2 3 ~]
+  %^  expect-eq
   (take 3 ~[1 2 3 4 5])
+  [1 2 3 ~]
+  "take"
 ::
 ++  test-drop
-  %-  expect-eq  !>
-  :-  [4 5 ~]
+  %^  expect-eq
   (drop:ls 3 ~[1 2 3 4 5])
+  [4 5 ~]
+  "drop"
 ::
 ++  test-split-at
-  %-  expect-eq  !>
-  :-  [[1 2 3 ~] [4 5 ~]]
+  %^  expect-eq
   (split-at 3 ~[1 2 3 4 5])
+  [[1 2 3 ~] [4 5 ~]]
+  "split-at"
 ::
 ++  test-take-while
-  %-  expect-eq  !>
-  :-  [1 2 ~]
+  %^  expect-eq
   (take-while ~[1 2 3 4 5] |=(a/@ (lth a 3)))
+  [1 2 ~]
+  "take-while"
 ::
 ++  test-drop-while
-  %-  expect-eq  !>
-  :-  [3 4 5 ~]
+  %^  expect-eq
   (drop-while ~[1 2 3 4 5] |=(a/@ (lth a 3)))
+  [3 4 5 ~]
+  "drop-while"
 ::
 ++  test-drop-while-end
-  %-  expect-eq  !>
-  :-  [5 5 1 ~]
+  %^  expect-eq
   (drop-while-end ~[5 5 1 5 5] |=(a/@ =(a 5)))
+  [5 5 1 ~]
+  "drop-while-end"
 ::
 ++  test-split-on
-  %-  expect-eq  !>
-  :-  [[1 2 ~] [3 4 1 2 3 4 ~]]
+  %^  expect-eq
   (split-on ~[1 2 3 4 1 2 3 4] |=(a/@ (lth a 3)))
+  [[1 2 ~] [3 4 1 2 3 4 ~]]
+  "split-on"
 ::
 ++  test-break
-  %-  expect-eq  !>
-  :-  [[1 2 3 ~] [4 1 2 3 4 ~]]
+  %^  expect-eq
   (break ~[1 2 3 4 1 2 3 4] |=(a/@ (gth a 3)))
+  [[1 2 3 ~] [4 1 2 3 4 ~]]
+  "break"
 ::
 ++  test-strip-prefix
-  %-  expect-eq  !>
-  :-  [~ "bar"]
+  %^  expect-eq
   (strip-prefix "foo" "foobar")
+  [~ "bar"]
+  "break"
 ::
 ++  test-inits
-  %-  expect-eq  !>
-  :-  ["a" "ab" "abc" ~]
+  %^  expect-eq
   (inits "abc")
+  ["a" "ab" "abc" ~]
+  "inits"
 ::
 ++  test-tails
-  %-  expect-eq  !>
-  :-  ["abc" "bc" "c" ~]
+  %^  expect-eq
   (tails "abc")
+  ["abc" "bc" "c" ~]
+  "tails"
 ::
 ++  test-is-prefix-of
-  %-  expect-eq  !>
-  :-  %.y
+  %^  expect-eq
   (is-prefix-of "foo" "foobar")
+  %.y
+  "is-prefix-of"
 ::
 ++  test-is-suffix-of
-  %-  expect-eq  !>
-  :-  %.y
+  %^  expect-eq
   (is-suffix-of "bar" "foobar")
+  %.y
+  "is-suffix-of"
 ::
 ++  test-is-infix-of
-  %-  expect-eq  !>
-  :-  %.y
+  %^  expect-eq
   (is-infix-of "ob" "foobar")
+  %.y
+  "is-infix-of"
 ::
 ++  test-elem
-  %-  expect-eq  !>
-  :-  %.y
+  %^  expect-eq
   (elem 5 [1 2 3 4 5 ~])
+  %.y
+  "elem"
 ::
 ++  test-lookup
-  %-  expect-eq  !>
-  :-  [~ 2]
+  %^  expect-eq
   (lookup "two" [["one" 1] ["two" 2] ["three" 3] ~])
+  [~ 2]
+  "lookup"
 ::
 ++  test-find
-  %-  expect-eq  !>
-  :-  [~ 5]
+  %^  expect-eq
   (find:ls [3 2 1 5 1 2 3 ~] |=(a/@ (gth a 3)))
+  [~ 5]
+  "find"
 ::
 ++  test-filter
-  %-  expect-eq  !>
-  :-  [1 1 1 ~]
+  %^  expect-eq
   (filter [1 2 1 2 1 ~] |=(a/@ =(a 2)))
+  [1 1 1 ~]
+  "filter"
 ::
 ++  test-partition
-  %-  expect-eq  !>
-  :-  [[2 2 ~] [1 1 1 ~]]
+  %^  expect-eq
   (partition [1 2 1 2 1 ~] |=(a/@ =(a 2)))
+  [[2 2 ~] [1 1 1 ~]]
+  "partition"
 ::
 ++  test-elem-index
-  %-  expect-eq  !>
-  :-  `1
+  %^  expect-eq
   (elem-index 2 [1 2 3 4 ~])
+  `1
+  "elem-index"
 ::
 ++  test-elem-indices
-  %-  expect-eq  !>
-  :-  [1 3 ~]
+  %^  expect-eq
   (elem-indices 2 [1 2 1 2 ~])
+  [1 3 ~]
+  "elem-indices"
 ::
 ++  test-find-index
-  %-  expect-eq  !>
-  :-  `1
+  %^  expect-eq
   (find-index [1 2 3 ~] |=(a/@ =(a 2)))
+  `1
+  "find-index"
 ::
 ++  test-find-indices
-  %-  expect-eq  !>
-  :-  [1 3 ~]
+  %^  expect-eq
   (find-indices [1 2 1 2 ~] |=(a/@ =(a 2)))
+  [1 3 ~]
+  "find-indices"
 ::
 ++  test-zip
-  %-  expect-eq  !>
-  :-  [[1 4 7 ~] [2 5 8 ~] [3 6 9 ~] ~]
+  %^  expect-eq
   (zip [[1 2 3 ~] [4 5 6 ~] [7 8 9 ~] ~])
+  [[1 4 7 ~] [2 5 8 ~] [3 6 9 ~] ~]
+  "zip"
 ::
 ++  test-unique
-  %-  expect-eq  !>
-  :-  [1 2 3 ~]
+  %^  expect-eq
   (unique [1 2 3 1 2 3 ~])
+  [1 2 3 ~]
+  "unique"
 ::
 ++  test-delete
-  %-  expect-eq  !>
-  :-  [1 3 2 ~]
+  %^  expect-eq
   (delete 2 [1 2 3 2 ~])
+  [1 3 2 ~]
+  "delete"
 ::
 ++  test-delete-firsts
-  %-  expect-eq  !>
-  :-  [1 2 3 4 ~]
+  %^  expect-eq
   (delete-firsts [1 2 2 2 3 4 5 ~] [2 2 5 ~])
+  [1 2 3 4 ~]
+  "delete-firsts"
 ::
 ++  test-union
-  %-  expect-eq  !>
-  :-  [1 2 3 4 5 ~]
+  %^  expect-eq
   (union [1 2 3 ~] [4 2 5 ~])
+  [1 2 3 4 5 ~]
+  "union"
 ::
 ++  test-intersect
-  %-  expect-eq  !>
-  :-  [6 6 8 ~]
+  %^  expect-eq
   (intersect [5 6 6 7 8 ~] [9 8 8 6 ~])
+  [6 6 8 ~]
+  "intersect"
 --
 

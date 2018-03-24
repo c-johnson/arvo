@@ -1,0 +1,80 @@
+
+div.nav a
+{
+  text-decoration: none;
+}
+
+/*
+ * IMAGE ENTRY
+ */
+
+div.entry.image h1
+{
+  display: none;
+}
+
+div.entry.image img
+{
+  width: 100%;
+}
+
+div.entry.text div.datestamp
+{
+  margin-top: 25rem;
+}
+
+div#page-nav a
+{
+  text-decoration: none;
+}
+
+div#page-nav button.disabled
+{
+  cursor: inherit;
+}
+
+/*
+@media only screen and (max-width: 480px) div.entry .col-md-6
+{
+  width: 100%;
+}
+*/
+div.post-input.text div.image-url
+{
+  display: none;
+}
+
+div.post-input.text textarea
+{
+  display: block;
+}
+
+div.post-input textarea
+{
+  display: none;
+}
+
+div.post-input div.image-url
+{
+  display: inherit;
+}
+
+div.entry div.datestamp a
+{
+  text-decoration: none;
+}
+
+/*
+ * sm
+ */
+
+@media screen and (max-width: 480px) {
+  div.entry.text div.datestamp {
+    margin-top: 0;
+  }
+}
+
+div.single-entry img
+{
+  width: 100%;
+}

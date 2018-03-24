@@ -8,6 +8,7 @@
   ::
 :-  %say
 |=  $:  {now/@da eny/@uvJ bec/beak}
-        {{recur/@dr start/@da $~} $~}
+        {arg/$@($~ {tym/@dr $~}) $~}
     ==
-[%kiln-overload recur start]
+?~  arg  $(arg [~h4 ~])
+[%kiln-overload tym.arg]
