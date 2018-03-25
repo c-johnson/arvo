@@ -3939,7 +3939,8 @@
       ;~(plug ;~(plug name attr) (cold ~ (star whit)))
     ::                                                  ::  ++head:de-xml:html
     ++  head                                            ::  opening tag
-      (ifix [gal gar] ;~(plug name attr))
+      ::(ifix [gal gar] ;~(plug name attr))
+      (ifix [gal ;~(pose gar (jest ' >'))] ;~(plug name attr))
     ::                                                  ::  ++many:de-xml:html
     ++  many                                            ::  contents
       (more (star comt) ;~(pose apex chrd))
